@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+    .info-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ccc;
+      opacity: 0.5;
+    }
+    .info-card {
+      position: relative;
+      width: 300px;
+      height: 100px;
+      padding: 30px;
+      border: 1px solid #aaaaaa;
+      background-color: white;
+    }
+    .info-confirm-btn {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+    }
+  </style>
+  <button id='btn'>info</button>
+  <script>
+    function alertInfo(text) {
+      var infoWrap = document.createElement('div');
+      infoWrap.setAttribute('class', 'info-wrap');
+      infoWrap.setAttribute('id', 'info-wrap');
+
+      var infoCard = document.createElement('div');
+      infoCard.setAttribute('class', 'info-card');
+
+      var infoText = document.createElement('div');
+      infoText.innerText = "通知： " + text;
+      
+      var infoBtn = document.createElement('button');
+      infoBtn.setAttribute('class', 'info-confirm-btn');
+      infoBtn.innerText = '确定';
+
+      infoBtn.addEventListener('click', clickConfirmBtn)
+
+      infoCard.appendChild(infoText);
+      infoCard.appendChild(infoBtn);
+
+      infoWrap.appendChild(infoCard);
+      document.body.appendChild(infoWrap);
+    }
+
+    function clickConfirmBtn() {
+      var infoWrap = document.getElementById('info-wrap');
+      infoWrap.parentNode.removeChild(infoWrap);
+    }
+
+    var btn = document.getElementById('btn')
+
+    btn.addEventListener('click', function() {
+      alertInfo('tetst')
+    })
+  </script>
+</body>
+</html>

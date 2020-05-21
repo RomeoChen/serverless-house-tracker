@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'serverless';
+  src: url('../assets/fonts/serverless-regular.woff2') format('woff2'),
+    url('../assets/fonts/serverless-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+  word-wrap: break-word;
+  letter-spacing: 0.25px;
+}
+

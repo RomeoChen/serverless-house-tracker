@@ -1,0 +1,26 @@
+org: fullstack
+app: fullstack-serverless-db
+stage: dev
+component: express
+name: fullstack-api
+
+inputs:
+  src: ./
+  functionName: ${name}
+  region: ${env:REGION}
+  runtime: Nodejs10.15
+  exclude:
+    - .env
+  functionConf:
+    timeout: 30
+    vpcConfig:
+      vpcId: ${output:${stage}:${app}:serverlessVpc.vpcId}
+      subnetId: ${output:${stage}:${app}:serverlessVpc.subnetId}
+    environment:
+      variables:
+        PG_CONNECT_STRING: ${output:${stage}:${app}:fullstackDB.private.connectionString}
+  apigatewayConf:
+    enableCORS: true
+    protocols:
+      - http
+      - https

@@ -1,0 +1,15 @@
+org: fullstack
+app: fullstack-serverless-db
+stage: dev
+
+component: postgresql
+name: fullstackDB
+
+inputs:
+  region: ${env:REGION}
+  zone: ${env:ZONE}
+  dBInstanceName: ${name}
+  vpcConfig:
+    vpcId: ${output:${stage}:${app}:serverlessVpc.vpcId}
+    subnetId: ${output:${stage}:${app}:serverlessVpc.subnetId}
+  extranetAccess: false
