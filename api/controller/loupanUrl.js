@@ -14,7 +14,7 @@ function initPgPool() {
     connectionString: process.env.PG_CONNECT_STRING,
   });
   // init table
-  pool.query(`CREATE TABLE IF NOT EXISTS buildings (
+  pool.query(`CREATE TABLE IF NOT EXISTS houses (
     ID     serial     NOT NULL,
     NAME   CHAR(20)   NOT NULL,
     URL    CHAR(50)   NOT NULL
@@ -26,15 +26,23 @@ function initPgPool() {
 const pool = initPgPool();
 
 module.exports = {
-  async getBuildingList() {
-    const client = await pool.connect();
-    const { rows } = await client.query({
-      text: 'select * from buildings',
-    });
-    await client.end();
-    return rows;
+
+  /** 查询列表 */
+  async getHouseList() {
+    try {
+      const client = await pool.connect();
+      const { rows } = await client.query({
+        text: 'select * from houses',
+      });
+      await client.end();
+      return rows;
+    } catch (error) {
+      throw new ApiError(1000, error)
+    }
   },
-  async getBuildingByName(name) {
+
+  /** 通过名称获取楼盘信息 */
+  async getHouseByName(name) {
     try {
       const client = await pool.connect();
       const { rows } = await client.query({
@@ -50,28 +58,54 @@ module.exports = {
       throw new ApiError(1001, e);
     }
   },
-  async createBuilding(building) {
-    const { name, url } = building;
-    const existUser = await this.getBuildingByName(name);
+
+  /** 新建楼盘信息 */
+  async createHouse(house) {
+    const { name, url } = house;
+    const existUser = await this.getHouseByName(name);
     if (existUser) {
-      throw new ApiError(1000, `building ${name} exist.`);
+      throw new ApiError(1002, `house ${name} exist.`);
     }
     const client = await pool.connect();
     const { rowCount } = await client.query({
-      text: 'INSERT INTO buildings(name, url) VALUES($1, $2)',
+      text: 'INSERT INTO houses(name, url) VALUES($1, $2)',
       values: [name, url],
     });
     await client.end();
     return rowCount === 1;
   },
 
-  async deleteBuildingByName(name) {
-    const client = await pool.connect();
-    const { rows } = await client.query({
-      text: 'DELETE FROM buildings WHERE name = $1',
-      values: [name],
-    });
-    await client.end();
-    return rows;
+  /** 更新楼盘信息 */
+  async updateHouse(house) {
+    const { name, url } = house
+    try {
+      const client = await pool.connect()
+      const { rows } = await client.query({
+        text: '',
+        values: [name, url],
+      })
+      await client.end();
+      if (rows.length > 0) {
+        return rows
+      }
+      return false;
+    } catch (error) {
+      throw new ApiError(1003, error)
+    }
+  },
+
+  /** 删除某楼盘 */
+  async deleteHouseByName(name) {
+    try {
+      const client = await pool.connect();
+      const { rows } = await client.query({
+        text: 'DELETE FROM houses WHERE name = $1',
+        values: [name],
+      });
+      await client.end();
+      return rows;
+    } catch (error) {
+      throw new ApiError(1004, error)
+    }
   },
 };
