@@ -7,7 +7,7 @@
 <script>
 export default {
   data() {
-
+    return {}
   },
   methods: {
     onChange() {

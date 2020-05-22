@@ -6,10 +6,12 @@
         mode="horizontal" 
         v-model="current"
       >
-        <a-menu-item key="house">楼盘</a-menu-item>
+        <a-menu-item key="url">楼盘链接</a-menu-item>
+        <a-menu-item key="house">楼盘变化率</a-menu-item>
         <a-menu-item key="district">板块</a-menu-item>
       </a-menu>
     </header>
+    <UrlList v-show="current[0] === 'url'" />
     <Loupan v-show="current[0] === 'house'" />
     <Bankuai v-show="current[0] === 'district'" />
   </div>
@@ -18,12 +20,14 @@
 <script>
 import Loupan from './views/Loupan';
 import Bankuai from './views/Bankuai'
+import UrlList from './views/UrlList'
 
 export default {
   name: "app",
   components: {
     Loupan,
     Bankuai,
+    UrlList,
   },
   data() {
     return {

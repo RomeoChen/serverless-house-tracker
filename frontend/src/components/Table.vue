@@ -15,7 +15,6 @@ const columns = [
     key: 'name',
     title: '楼盘名',
     width: '40%',
-    align: 'center'
   }, {
     dataIndex: 'startCount',
     key: 'startCount',
@@ -54,7 +53,7 @@ export default {
   methods: {
     calcRate(startCount, endCount) {
       if (startCount && endCount) {
-        const result = ((startCount - endCount) / startCount) * 100;
+        const result = ((endCount - startCount) / startCount) * 100;
         return result.toFixed(2);
       } else {
         return '-'

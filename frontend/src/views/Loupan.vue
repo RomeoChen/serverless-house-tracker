@@ -26,5 +26,7 @@ export default {
 </script>
 
 <style>
-
+.date-picker {
+  margin: 10px;
+}
 </style>

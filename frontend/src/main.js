@@ -8,6 +8,10 @@ Vue.config.productionTip = false;
 
 Vue.use(Antd);
 
+/** 开发环境 */
+window.env = {}
+window.env.apiUrl = 'https://service-g9p31ojq-1257634896.gz.apigw.tencentcs.com/release/'
+
 new Vue({
   render: h => h(App)
 }).$mount('#app');
