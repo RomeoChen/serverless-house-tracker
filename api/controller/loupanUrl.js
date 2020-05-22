@@ -46,7 +46,7 @@ module.exports = {
     try {
       const client = await pool.connect();
       const { rows } = await client.query({
-        text: 'SELECT * FROM users WHERE name = $1',
+        text: 'SELECT * FROM houses WHERE name = $1',
         values: [name],
       });
       await client.end();
