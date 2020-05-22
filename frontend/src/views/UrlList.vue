@@ -8,7 +8,7 @@
         <a-button type="danger" @click="handleDelete(house)">Delete</a-button>
       </template>
     </a-table>
-    <a-modal v-model="visible" title="新增楼盘" @ok="handleAddOk">
+    <a-modal v-model="visible" title="新增楼盘" @ok="handleAddOk" :confirm-loading="confirmLoading">
       <a-form-model>
         <a-form-model-item>
           <a-input v-model="form.name" placeholder="楼盘名称"></a-input>
@@ -42,31 +42,18 @@ const columns = [
   }
 ]
 
-const data = [
-  {
-    id: 1,
-    name: '楼盘1',
-    url: '111.222.3331423465634451345345',
-    key: 1,
-  },{
-    id: 3,
-    name: '楼盘3',
-    url: '1114563463431423465634451345345',
-    key: 2,
-  },
-]
-
 export default {
   data() {
     return {
       columns,
-      data,
+      data: [],
       visible: false,
       form: {
         name: '',
         url: '',
       },
       loading: false,
+      confirmLoading: false,
     }
   },
   methods: {
@@ -85,7 +72,6 @@ export default {
         title: '确定删除？',
         content: '确定要删除吗？',
         onOk: async () => {
-          console.log(house.name)
           const { data } = await axios.delete(`${window.env.apiUrl}house/${house.name}`)
           if (data.code === 0) {
             this.$message.success(data.message)
@@ -101,6 +87,7 @@ export default {
       this.visible = true;
     },
     async handleAddOk() {
+      this.confirmLoading = true
       const { data } = await axios.post(`${window.env.apiUrl}house`, this.form);
       if (data.code === 0) {
         this.$message.success(data.message);
@@ -108,6 +95,7 @@ export default {
       } else {
         this.$message.error(data.message);
       }
+      this.confirmLoading = false;
       this.visible = false;
     }
   },

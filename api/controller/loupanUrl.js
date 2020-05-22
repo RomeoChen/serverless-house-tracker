@@ -53,7 +53,7 @@ module.exports = {
       if (rows.length > 0) {
         return rows;
       }
-      return false;
+      throw new ApiError(1001, `楼盘：${name} 不存在`)
     } catch (e) {
       throw new ApiError(1001, e);
     }
