@@ -33,15 +33,12 @@ const columns = [
 
 const data = [
   {
+    key: 1,
     name: '楼盘1',
     startCount: 559,
     endCount: 690,
   }
 ]
-
-for (let i = 1; i < 20; i++) {
-  data[i] = data[0]
-}
 
 export default {
   data() {
