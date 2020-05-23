@@ -5,7 +5,7 @@
     </section>
     <a-table :columns="columns" :data-source="data" :loading="loading">
       <template v-slot:options="house">
-        <a-button type="danger" @click="handleDelete(house)">Delete</a-button>
+        <a-button type="danger" @click="handleDelete(house)">删除</a-button>
       </template>
     </a-table>
     <a-modal v-model="visible" title="新增楼盘" @ok="handleAddOk" :confirm-loading="confirmLoading">
@@ -81,15 +81,19 @@ export default {
         title: '确定删除？',
         content: '确定要删除吗？',
         onOk: async () => {
-          const { data } = await axios.delete(`${window.env.apiUrl}house/${house.name}`)
-          if (data.code === 0) {
-            this.$message.success(data.message)
-            this.getHouseData()
-          } else {
-            this.$message.error(data.message)
-          }
+          try {
+            const { data } = await axios.delete(`${window.env.apiUrl}house/${house.name}`)
+            if (data.code === 0) {
+              this.$message.success(data.message)
+              this.getHouseData()
+            } else {
+              throw new Error(data.message)
+            }
+          } catch (error) {
+            this.$message.error(error.message)
+          } 
         },
-        onCancel() {}
+        onCancel: () => {}
       })
     },
     handleAdd() {
@@ -100,16 +104,25 @@ export default {
         this.$message.error(`不能为空`)
         return;
       }
-      this.confirmLoading = true
-      const { data } = await axios.post(`${window.env.apiUrl}house`, this.form);
-      if (data.code === 0) {
-        this.$message.success(data.message);
-        this.getHouseData();
-      } else {
-        this.$message.error(data.message);
+      this.confirmLoading = true;
+      try {
+        const { data } = await axios.post(`${window.env.apiUrl}house`, this.form);
+        if (data.code === 0) {
+          this.$message.success(data.message);
+          this.form = {
+            name: '',
+            url: '',
+          }
+          this.getHouseData();
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (error) {
+        this.$message.error(error.message);
+      } finally {
+        this.confirmLoading = false;
+        this.visible = false;
       }
-      this.confirmLoading = false;
-      this.visible = false;
     }
   },
   mounted() {
