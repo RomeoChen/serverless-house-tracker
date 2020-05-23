@@ -1,54 +1,66 @@
 <template>
   <div id="app" class="container">
     <header class="header">
-      <div class="logo">HouseTracker</div>
-      <a-menu 
-        mode="horizontal" 
-        v-model="current"
-      >
-        <a-menu-item key="url">楼盘链接</a-menu-item>
-        <a-menu-item key="house">楼盘变化率</a-menu-item>
-        <a-menu-item key="district">板块</a-menu-item>
-      </a-menu>
+      <div class="site-name">HouseTracker</div>
+      <a-dropdown :trigger="['click']" class="dowp-down">
+        <a class="ant-dropdown-link" @click="e=>e.preventDefault()">
+          {{current}} <a-icon type="down"></a-icon>
+        </a>
+        <a-menu slot="overlay">
+          <a-menu-item key="loupan" @click="changeToLoupan">
+            <router-link to="/">楼盘</router-link>
+          </a-menu-item>
+          <a-menu-item key="bankuai" @click="changeToBankuai">
+            <router-link to="/bankuai">板块</router-link>
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
     </header>
-    <UrlList v-show="current[0] === 'url'" />
-    <Loupan v-show="current[0] === 'house'" />
-    <Bankuai v-show="current[0] === 'district'" />
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import Loupan from './views/Loupan';
-import Bankuai from './views/Bankuai'
-import UrlList from './views/UrlList'
 
 export default {
   name: "app",
-  components: {
-    Loupan,
-    Bankuai,
-    UrlList,
-  },
   data() {
     return {
-      current: ['house']
+      current: '楼盘',
     };
   },
+  methods: {
+    changeToLoupan() {
+      this.current = '楼盘'
+    },
+    changeToBankuai() {
+      this.current = '板块'
+    }
+  }
 };
 </script>
 
 <style>
 .container {
   text-align: center;
-  padding: 10px;
+  position: relative;
 }
 
 .header {
-  position: relative;
+  position: absolute;
   text-align: center;
+  border-bottom: 1px solid;
+  line-height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
-.search-bar {
-  margin: 10px;
+.content {
+  position: absolute;
+  top: 51px;
+  width: 100%;
 }
 </style>

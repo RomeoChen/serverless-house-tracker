@@ -4,7 +4,7 @@ import Loupan from '../views/Loupan.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Loupan',
@@ -16,7 +16,7 @@ Vue.use(VueRouter)
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Bankuai.vue')
+    component: () => import('../views/Bankuai.vue')
   }
 ]
 
