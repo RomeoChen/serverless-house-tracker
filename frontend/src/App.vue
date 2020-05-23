@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container">
+  <div id="app">
     <header class="header">
       <div class="site-name">HouseTracker</div>
       <a-dropdown :trigger="['click']" class="dowp-down">
@@ -43,9 +43,11 @@ export default {
 </script>
 
 <style>
-.container {
+#app {
   text-align: center;
-  position: relative;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .header {
@@ -62,5 +64,6 @@ export default {
   position: absolute;
   top: 51px;
   width: 100%;
+  bottom: 0;
 }
 </style>
