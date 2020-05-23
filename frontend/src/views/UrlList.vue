@@ -64,6 +64,7 @@ export default {
         this.data = [];
       } else {
         this.data = data.data || [];
+        this.data = this.data.map(item => { item.key = item.id + ''; return item })
       }
       this.loading = false;
     },
