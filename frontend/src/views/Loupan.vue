@@ -1,41 +1,42 @@
 <template>
   <div class="loupan-container">
-    <SearchBar class="search-bar" />
-    <DatePicker class="date-picker" />
-    <CountTable />
-    <LineChart />
+    <a-menu mode="horizontal" :default-selected-keys="['search']">
+      <a-menu-item key="search">
+        <router-link to="/">搜索</router-link>
+      </a-menu-item>
+      <a-menu-item key="linkList">
+        <router-link to="/link-list">链接列表</router-link>
+      </a-menu-item>
+      <a-menu-item key="sort">
+        <router-link to="/sort">排序</router-link>
+      </a-menu-item>
+    </a-menu>
+    <div class="loupan-content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import SearchBar from "../components/SearchBar";
-import DatePicker from '../components/DatePicker';
-import CountTable from '../components/CountTable';
-import LineChart from '../components/LineChart'
-
 export default {
-  components: {
-    SearchBar,
-    DatePicker,
-    CountTable,
-    LineChart,
-  },
   data() {
     return {
-      showChart: false,
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .loupan-container {
-  position: absolute;
   width: 100%;
+  position: relative;
+  height: 100%;
 }
 
-
-.date-picker, .search-bar {
-  margin: 10px;
+.loupan-content {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  width: 100%;
 }
 </style>

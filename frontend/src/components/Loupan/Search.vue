@@ -1,13 +1,21 @@
 <template>
+<div class="search-container">
+  <a-input-search placeholder="搜索楼盘" style="width: 100%" v-model="searchText" @search="onSearch" class="search-input"/>
   <div ref="chart" id="chart"></div>
+</div>
 </template>
 
 <script>
 import echarts from 'echarts';
-export default {
-  data() {
-    return {
 
+export default {
+  data: function() {
+    return {
+      searchText: '',
+    }
+  },
+  methods: {
+    onSearch() {
     }
   },
   mounted() {
@@ -25,21 +33,27 @@ export default {
           type: 'line'
       }]
     })
+    window.addEventListener('resize', function() {
+      myChart.resize();
+    })
   }
 }
 </script>
 
 <style scoped>
+.search-container {
+  position: relative;
+  height: 100%;
+}
+
+.search-input {
+  margin-top: 10px;
+}
+
 #chart {
+  width: 100%;
   position: absolute;
-  top: 0;
-  right: 0;
-  /* height: 300px; */
-  /* width: 100%; */
-  /* padding: 20px; */
-  bottom: 50px;
-  left: 0;
-  box-sizing: border-box;
-  padding: 10px;
+  top: 50px;
+  bottom: 0;
 }
 </style>

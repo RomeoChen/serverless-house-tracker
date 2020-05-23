@@ -7,8 +7,23 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Loupan',
-    component: Loupan
+    component: Loupan,
+    children: [
+      {
+        path: '',
+        component: () => import('../components/Loupan/Search.vue')
+      },
+      {
+        path: 'link-list',
+        name: 'LinkList',
+        component: () => import('../components/Loupan/UrlList.vue')
+      },
+      {
+        path: 'sort',
+        name: 'Sort',
+        component: () => import('../components/Loupan/Sort.vue')
+      }
+    ]
   },
   {
     path: '/bankuai',
