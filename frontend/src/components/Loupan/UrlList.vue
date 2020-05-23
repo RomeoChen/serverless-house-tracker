@@ -82,7 +82,7 @@ export default {
         content: '确定要删除吗？',
         onOk: async () => {
           try {
-            const { data } = await axios.delete(`${window.env.apiUrl}house/${house.name}`)
+            const { data } = await axios.delete(`${window.env.apiUrl}house/${house.id}`)
             if (data.code === 0) {
               this.$message.success(data.message)
               this.getHouseData()
