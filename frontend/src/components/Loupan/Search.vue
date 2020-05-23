@@ -31,7 +31,8 @@ export default {
       series: [{
           data: [820, 932, 901, 934, 1290, 1330, 1320,400,500,600,700,800,900,1000,1100],
           type: 'line'
-      }]
+      }],
+      dataZoom: [{type: 'inside'}]
     })
     window.addEventListener('resize', function() {
       myChart.resize();
