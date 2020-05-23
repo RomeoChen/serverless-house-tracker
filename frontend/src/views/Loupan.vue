@@ -1,32 +1,41 @@
 <template>
-  <div>
+  <div class="loupan-container">
     <SearchBar class="search-bar" />
     <DatePicker class="date-picker" />
-    <Table />
+    <CountTable />
+    <LineChart />
   </div>
 </template>
 
 <script>
 import SearchBar from "../components/SearchBar";
 import DatePicker from '../components/DatePicker';
-import Table from '../components/Table';
+import CountTable from '../components/CountTable';
+import LineChart from '../components/LineChart'
 
 export default {
   components: {
     SearchBar,
     DatePicker,
-    Table,
+    CountTable,
+    LineChart,
   },
   data() {
     return {
-
+      showChart: false,
     }
   }
 }
 </script>
 
 <style>
-.date-picker {
+.loupan-container {
+  position: absolute;
+  width: 100%;
+}
+
+
+.date-picker, .search-bar {
   margin: 10px;
 }
 </style>
