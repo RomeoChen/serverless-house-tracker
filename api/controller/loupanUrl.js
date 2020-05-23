@@ -95,12 +95,12 @@ module.exports = {
   },
 
   /** 删除某楼盘 */
-  async deleteHouseByName(name) {
+  async deleteHouseById(id) {
     try {
       const client = await pool.connect();
       const { rows } = await client.query({
-        text: 'DELETE FROM houses WHERE name = $1',
-        values: [name],
+        text: 'DELETE FROM houses WHERE id = $1',
+        values: [id],
       });
       await client.end();
       return rows;

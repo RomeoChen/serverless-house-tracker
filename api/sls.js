@@ -138,11 +138,12 @@ app.put('/house', async (req, res) => {
   res.send(JSON.stringify(result))
 })
 
-app.delete('/house/:name', async (req, res) => {
+/** 根据id删除楼盘 */
+app.delete('/house/:id', async (req, res) => {
   let result = '';
   try {
-    const { name } = req.params;
-    const data = await HouseController.deleteHouseByName(name);
+    const { id } = req.params;
+    const data = await HouseController.deleteHouseById(id);
     result = {
       code: 0,
       data,
