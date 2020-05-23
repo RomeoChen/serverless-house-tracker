@@ -23,7 +23,6 @@
 
 <script>
 import axios from "axios";
-/* eslint-disable */
 
 const columns = [
   {
@@ -68,6 +67,15 @@ export default {
       }
       this.loading = false;
     },
+    formCheck() {
+      if (this.form.name.trim() === '') {
+        return false;
+      }
+      if (this.form.url.trim() === '') {
+        return false;
+      }
+      return true;
+    },
     handleDelete(house) {
       this.$confirm({
         title: '确定删除？',
@@ -88,6 +96,10 @@ export default {
       this.visible = true;
     },
     async handleAddOk() {
+      if (!this.formCheck()) {
+        this.$message.error(`不能为空`)
+        return;
+      }
       this.confirmLoading = true
       const { data } = await axios.post(`${window.env.apiUrl}house`, this.form);
       if (data.code === 0) {
