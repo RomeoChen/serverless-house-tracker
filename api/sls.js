@@ -3,8 +3,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const UserController = require('./controller/user');
-const HouseController = require('./controller/loupanUrl');
+const URLListCB = require('./callbacks/urlList');
+const CountCB = require('./callbacks/count');
 
 const app = express();
 app.use(bodyParser.json());
@@ -19,143 +19,40 @@ app.get('/', (req, res) => {
   );
 });
 
-// get user list
-app.get('/user', async (req, res) => {
-  const data = await UserController.getUserList();
-  res.send(
-    JSON.stringify({
-      code: 0,
-      data,
-    }),
-  );
-});
-
-// add new user
-app.post('/user', async (req, res) => {
-  let result = '';
-  try {
-    const user = req.body;
-    const data = await UserController.createUser(user);
-    result = {
-      code: 0,
-      data,
-      message: 'Insert Success',
-    };
-  } catch (e) {
-    result = {
-      code: e.code,
-      message: `Insert Fail: ${e.message}`,
-    };
-  }
-
-  res.send(JSON.stringify(result));
-});
-
-// delete user
-app.delete('/user/:name', async (req, res) => {
-  let result = '';
-  try {
-    const { name } = req.params;
-    const data = await UserController.deleteUserByName(name);
-    result = {
-      code: 0,
-      data,
-      message: 'Delete Success',
-    };
-  } catch (e) {
-    result = {
-      code: 1002,
-      data: e,
-      message: 'Delete Fail',
-    };
-  }
-
-  res.send(JSON.stringify(result));
-});
-
 /** 获取楼盘列表信息 */
-app.get('/house', async (req, res) => {
-  const data = await HouseController.getHouseList();
-  res.send(JSON.stringify({
-    code: 0,
-    data,
-  }))
-})
+app.get('/house', URLListCB.getHouseList);
 
 /** 获取某个楼盘 */
-app.get('/house/:name', async (req, res) => {
-  let result;
-  try {
-    const { name } = req.params;
-    const data = await HouseController.getHouseByName(name);
-    result = {
-      code: 0,
-      data: data[0]
-    }
-  } catch (e) {
-    result = e;
-  }
-  res.send(JSON.stringify(result));
-})
+app.get('/house/:name', URLListCB.getHouseByName);
 
 /** 新增楼盘 */
-app.post('/house', async (req, res) => {
-  let result = '';
-  try {
-    const house = req.body;
-    const data = await HouseController.createHouse(house);
-    result = {
-      code: 0,
-      data,
-      message: 'Insert Success',
-    };
-  } catch (e) {
-    result = {
-      code: e.code,
-      message: `Insert Fail: ${e.message}`,
-    }
-  }
-  res.send(JSON.stringify(result))
-})
+app.post('/house', URLListCB.createHouse);
 
 /** 修改楼盘信息 */
-app.put('/house', async (req, res) => {
-  let result = '';
-  try {
-    const house = req.body;
-    const data = await HouseController.updateHouse(house)
-    result = {
-      code: 0,
-      data,
-      message: 'Update Success'
-    }
-  } catch (error) {
-    result = {
-      code: error.code,
-      message: `Update Fail: ${error.message}`
-    }
-  }
-  res.send(JSON.stringify(result))
-})
+app.put('/house', URLListCB.updateHouse);
 
 /** 根据id删除楼盘 */
-app.delete('/house/:id', async (req, res) => {
-  let result = '';
-  try {
-    const { id } = req.params;
-    const data = await HouseController.deleteHouseById(id);
-    result = {
-      code: 0,
-      data,
-      message: 'Delete Success'
-    }
-  } catch (error) {
-    result = {
-      code: error.code,
-      message: `Delete Fail: ${error.message}`
-    }
-  }
-  res.send(JSON.stringify(result))
-})
+app.delete('/house/:id', URLListCB.deleteHouseById);
+
+
+/** 获取所有数量信息 */
+app.get('/count', CountCB.getCountList);
+
+/** 通过名字获取某个楼盘在售数量列表信息 */
+app.get('/count/name=:houseName', CountCB.getCountListByHouseName);
+
+/** 通过id获取某个楼盘在售数量列表信息 */
+app.get('/count/id=:houseId', CountCB.getCountListByHouseId);
+
+/** 通过日期获取在售数量 */
+app.get('/count/date=:date', CountCB.getCountListByDate);
+
+/** 插入或更新数量 */
+app.post('/count', CountCB.createCount);
+
+/** 删除数量 */
+app.delete('/count/:houseId', CountCB.deleteCountById);
+
+
 
 module.exports = app;

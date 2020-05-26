@@ -1,29 +1,7 @@
 'use strict';
 
-const { Pool } = require('pg');
-
-function ApiError(code, msg) {
-  const e = new Error(msg);
-  e.code = code;
-  return e;
-}
-
-// init mysql connection
-function initPgPool() {
-  const pool = new Pool({
-    connectionString: process.env.PG_CONNECT_STRING,
-  });
-  // init table
-  pool.query(`CREATE TABLE IF NOT EXISTS houses (
-    ID     serial     NOT NULL,
-    NAME   CHAR(20)   NOT NULL,
-    URL    CHAR(50)   NOT NULL
-  );`);
-
-  return pool;
-}
-
-const pool = initPgPool();
+const pool = require('./pool');
+const { ApiError } = require('../tool')
 
 module.exports = {
 
@@ -37,7 +15,7 @@ module.exports = {
       await client.end();
       return rows;
     } catch (error) {
-      throw new ApiError(1000, error)
+      throw ApiError(1000, error)
     }
   },
 
@@ -53,9 +31,8 @@ module.exports = {
       if (rows.length > 0) {
         return rows;
       }
-      throw new ApiError(1001, `楼盘：${name} 不存在`)
     } catch (e) {
-      throw new ApiError(1001, e);
+      throw ApiError(1001, e);
     }
   },
 
@@ -64,7 +41,7 @@ module.exports = {
     const { name, url } = house;
     const existUser = await this.getHouseByName(name);
     if (existUser) {
-      throw new ApiError(1002, `house ${name} exist.`);
+      throw ApiError(1002, `house ${name} exist.`);
     }
     const client = await pool.connect();
     const { rowCount } = await client.query({
@@ -90,7 +67,7 @@ module.exports = {
       }
       return false;
     } catch (error) {
-      throw new ApiError(1003, error)
+      throw ApiError(1003, error)
     }
   },
 
@@ -105,7 +82,7 @@ module.exports = {
       await client.end();
       return rows;
     } catch (error) {
-      throw new ApiError(1004, error)
+      throw ApiError(1004, error)
     }
   },
 };
