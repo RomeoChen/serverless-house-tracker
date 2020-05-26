@@ -3,7 +3,7 @@
     <section class="add-house-btn">
       <a-button type="primary" @click="handleAdd">新增楼盘</a-button>
     </section>
-    <a-table :columns="columns" :data-source="data" :loading="loading">
+    <a-table :columns="columns" :data-source="houseList" :loading="loading">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -113,7 +113,6 @@ export default {
   data() {
     return {
       columns,
-      data: [],
       visible: false,
       form: {
         name: '',
@@ -124,17 +123,14 @@ export default {
       searchText: '',
     }
   },
+  computed: {
+    houseList() {
+      return this.$store.state.url.houseList;
+    }
+  },
   methods: {
-    async getHouseData() {
-      this.loading = true;
-      const { data }=await axios.get(`${window.env.apiUrl}house`);
-      if (data.code !== 0) {
-        this.data = [];
-      } else {
-        this.data = data.data || [];
-        this.data = this.data.map(item => { item.key = item.id + ''; return item })
-      }
-      this.loading = false;
+    getHouseData() {
+      this.$store.dispatch('getUrlList');
     },
     formCheck() {
       if (this.form.name.trim() === '') {
