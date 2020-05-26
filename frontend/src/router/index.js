@@ -11,7 +11,7 @@ const routes = [
     children: [
       {
         path: '',
-        component: () => import('../components/Loupan/Search.vue')
+        component: () => import('../components/Loupan/TrendChart.vue')
       },
       {
         path: 'link-list',
