@@ -44,11 +44,12 @@ module.exports = {
   },
 
   async createCount(count) {
-    const { houseId, num } = count;
+    const { houseId, num, date } = count;
     const client = await pool.connect();
+    const text = `insert into counts (house_id, c_date, c_num) values ($1, ${date ? '$2' : 'current_date'}, $3)`
     const { rowCount } = await client.query({
-      text: 'insert into counts (house_id, c_date, c_num) values ($1, current_date, $2);',
-      values: [houseId, num],
+      text: text,
+      values: [houseId, date, num],
     })
     await client.end();
     return rowCount === 1;

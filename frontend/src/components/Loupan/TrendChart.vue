@@ -25,6 +25,7 @@ export default {
       loading: false,
       xAxisData: [],
       seriesData: [],
+      myChart: null,
     }
   },
   computed: {
@@ -48,11 +49,12 @@ export default {
       }
       this.loading = true;
       try {
-        const { data } = await axios.get(`${window.env.apiUrl}count/id=${this.houseId}`);
+        const { data } = await axios.get(`${window.env.apiUrl}count?id=${this.houseId}`);
         if (data.code === 0) {
           const [xAxisData, seriesData] = this.handleData(data.data);
           this.xAxisData = xAxisData;
           this.seriesData = seriesData;
+          this.draw();
         } else {
           throw new Error(data.message);
         }
@@ -72,24 +74,27 @@ export default {
         seriesData.push(item.c_num);
       }
       return [xAxisData, seriesData];
+    },
+    draw() {
+      this.myChart.setOption({
+        xAxis: {
+            type: 'category',
+            data: this.xAxisData,
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: this.seriesData,
+            type: 'line'
+        }],
+        dataZoom: [{type: 'inside'}]
+      })
     }
   },
   mounted() {
-    const myChart = echarts.init(this.$refs['chart'])
-    myChart.setOption({
-      xAxis: {
-          type: 'category',
-          data: this.xAxisData,
-      },
-      yAxis: {
-          type: 'value'
-      },
-      series: [{
-          data: this.seriesData,
-          type: 'line'
-      }],
-      dataZoom: [{type: 'inside'}]
-    })
+    const myChart = echarts.init(this.$refs['chart']);
+    this.myChart = myChart;
     window.addEventListener('resize', function() {
       myChart.resize();
     })
