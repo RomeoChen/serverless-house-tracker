@@ -22,8 +22,8 @@ module.exports = {
   },
 
   async getCountListByHouseId(req, res) {
-    const { id } = req.params;
-    const data = await CountController.getCountListByHouseId(id);
+    const { houseId } = req.params;
+    const data = await CountController.getCountListByHouseId(houseId);
     res.send(JSON.stringify({
       code: 0,
       data,
@@ -58,7 +58,7 @@ module.exports = {
     res.send(JSON.stringify(result));
   },
 
-  async deleteCountById (req, res) {
+  async deleteCountByHouseId (req, res) {
     let result = '';
     try {
       const { houseId } = req.params;

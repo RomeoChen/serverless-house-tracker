@@ -51,7 +51,7 @@ app.get('/count/date=:date', CountCB.getCountListByDate);
 app.post('/count', CountCB.createCount);
 
 /** 删除数量 */
-app.delete('/count/:houseId', CountCB.deleteCountById);
+app.delete('/count/:houseId', CountCB.deleteCountByHouseId);
 
 
 

@@ -5,5 +5,5 @@ module.exports = {
     const e = new Error(msg);
     e.code = code;
     return e;
-  }  
+  },
 }
