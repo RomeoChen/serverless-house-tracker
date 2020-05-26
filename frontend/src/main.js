@@ -12,7 +12,7 @@ Vue.use(Antd);
 
 /** 开发环境 */
 window.env = {}
-window.env.apiUrl = 'https://service-g9p31ojq-1257634896.gz.apigw.tencentcs.com/release/'
+window.env.apiUrl = 'https://service-rb168nls-1257634896.gz.apigw.tencentcs.com/release/'
 
 new Vue({
   router,
