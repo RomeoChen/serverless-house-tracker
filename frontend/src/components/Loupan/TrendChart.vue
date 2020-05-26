@@ -17,6 +17,7 @@
 /* eslint-disable */
 import echarts from 'echarts';
 import axios from 'axios';
+import { convertDate } from '../../utils.js';
 
 export default {
   data: function() {
@@ -49,7 +50,7 @@ export default {
       }
       this.loading = true;
       try {
-        const { data } = await axios.get(`${window.env.apiUrl}count?id=${this.houseId}`);
+        const { data } = await axios.get(`${window.env.apiUrl}count/id=${this.houseId}`);
         if (data.code === 0) {
           const [xAxisData, seriesData] = this.handleData(data.data);
           this.xAxisData = xAxisData;
@@ -68,15 +69,21 @@ export default {
       this.searchText = value;
     },
     handleData(data) {
+      if (data.length === 0) {
+        this.$message.info('没有数据');
+      }
       const xAxisData = [], seriesData = [];
       for (const item of data) {
-        xAxisData.push(item.c_date);
+        xAxisData.push(convertDate(item.c_date));
         seriesData.push(item.c_num);
       }
       return [xAxisData, seriesData];
     },
     draw() {
       this.myChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+        },
         xAxis: {
             type: 'category',
             data: this.xAxisData,
