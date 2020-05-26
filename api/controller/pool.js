@@ -12,8 +12,8 @@ function initPgPool() {
     pool.query(`
       CREATE TABLE IF NOT EXISTS houses (
         ID     serial     primary key  NOT NULL,
-        NAME   CHAR(20)   NOT NULL,
-        URL    CHAR(50)   NOT NULL
+        NAME   text       NOT NULL,
+        URL    text       NOT NULL
       );
       CREATE TABLE IF NOT EXISTS counts (
         ID        serial  primary key  NOT NULL,
