@@ -81,19 +81,24 @@ export default {
     },
     draw() {
       this.myChart.setOption({
+        title: {
+          text: '楼盘在售数量趋势图',
+        },
         tooltip: {
           trigger: 'axis',
         },
         xAxis: {
-            type: 'category',
-            data: this.xAxisData,
+          name: '日期（年月日）',
+          type: 'category',
+          data: this.xAxisData,
         },
         yAxis: {
-            type: 'value'
+          name: '数量（套）',
+          type: 'value'
         },
         series: [{
-            data: this.seriesData,
-            type: 'line'
+          data: this.seriesData,
+          type: 'line'
         }],
         dataZoom: [{type: 'inside'}]
       })
