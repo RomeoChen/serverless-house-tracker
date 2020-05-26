@@ -61,8 +61,8 @@ module.exports = {
   async deleteCountById (req, res) {
     let result = '';
     try {
-      const { id } = req.params;
-      const data = await CountController.deleteCountByHouseId(id);
+      const { houseId } = req.params;
+      const data = await CountController.deleteCountByHouseId(houseId);
       result = {
         code: 0,
         data,
