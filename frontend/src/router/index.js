@@ -19,9 +19,9 @@ const routes = [
         component: () => import('../components/Loupan/UrlList.vue')
       },
       {
-        path: 'sort',
-        name: 'Sort',
-        component: () => import('../components/Loupan/Sort.vue')
+        path: 'change-rate',
+        name: 'ChangeRate',
+        component: () => import('../components/Loupan/ChangeRate.vue')
       }
     ]
   },

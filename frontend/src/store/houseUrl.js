@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { message } from "ant-design-vue";
 
+/**
+ * house: {id, name, url}
+ */
+
 export default {
   state: () => ({
     houseList: [],
@@ -12,7 +16,7 @@ export default {
     },
     changeLoading(state, status) {
       state.loading = status;
-    }
+    },
   },
   actions: {
     /* eslint-disable-next-line */
@@ -40,6 +44,10 @@ export default {
     },
     getHouseByName: (state) => (name) => {
       return state.houseList.find(house => house.name === name);
+    },
+    getHouseNameById: (state) => (id) => {
+      const house = state.houseList.find(house => house.id === id);
+      return house.name;
     }
   },
 }

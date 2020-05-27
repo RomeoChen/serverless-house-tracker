@@ -8,7 +8,7 @@
         <router-link to="/link-list">楼盘链接</router-link>
       </a-menu-item>
       <a-menu-item key="sort">
-        <router-link to="/sort">楼盘变化率</router-link>
+        <router-link to="/change-rate">楼盘变化率</router-link>
       </a-menu-item>
     </a-menu>
     <div class="loupan-content">
