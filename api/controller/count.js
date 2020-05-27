@@ -57,11 +57,11 @@ module.exports = {
 
   async deleteCountByHouseId(houseId) {
     const client = await pool.connect();
-    const { rows } = await client.query({
+    const { rowCount } = await client.query({
       text: 'DELETE FROM COUNTS WHERE house_id = $1',
       values: [houseId],
     })
     await client.end();
-    return rows;
+    return rowCount === 0;
   }
 };

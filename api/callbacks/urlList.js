@@ -1,6 +1,7 @@
 'use strict';
 
 const HouseController = require('../controller/loupanUrl');
+const CountController = require('../controller/count');
 
 module.exports = {
   async getHouseList(req, res) {
@@ -68,6 +69,10 @@ module.exports = {
     let result = '';
     try {
       const { id } = req.params;
+      
+      // 先删除counts里的依赖项
+      await CountController.deleteCountByHouseId(id);
+
       const data = await HouseController.deleteHouseById(id);
       result = {
         code: 0,
