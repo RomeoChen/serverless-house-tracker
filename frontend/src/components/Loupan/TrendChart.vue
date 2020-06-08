@@ -39,10 +39,13 @@ export default {
     houseId() {
       const house = this.$store.getters.getHouseByName(this.searchText);
       return house ? house.id : undefined;
-    }
+    },
+    currentHouseId() {
+      return this.$route.params.houseId;
+    },
   },
   methods: {
-    async onSearch(searchText) {
+    onSearch(searchText) {
       if (searchText === '') {
         this.$message.error('请输入楼盘名称再搜索');
         return;
@@ -51,22 +54,7 @@ export default {
         this.$message.error('楼盘不存在');
         return;
       }
-      this.loading = true;
-      try {
-        const { data } = await axios.get(`${window.env.apiUrl}count/id=${this.houseId}`);
-        if (data.code === 0) {
-          const [xAxisData, seriesData] = this.handleData(data.data);
-          this.xAxisData = xAxisData;
-          this.seriesData = seriesData;
-          this.draw();
-        } else {
-          throw new Error(data.message);
-        }
-      } catch (error) {
-        this.$message.error(error.message)
-      } finally {
-        this.loading = false;
-      }
+      this.search();
     },
     onChange(value) {
       this.searchText = value;
@@ -105,14 +93,40 @@ export default {
         }],
         dataZoom: [{type: 'inside'}]
       })
-    }
+    },
+    async search() {
+      const houseId = this.houseId ? this.houseId : this.currentHouseId;
+      if (houseId) {
+        this.loading = true;
+        try {
+          const { data } = await axios.get(`${window.env.apiUrl}count/id=${houseId}`);
+          if (data.code === 0) {
+            const [xAxisData, seriesData] = this.handleData(data.data);
+            this.xAxisData = xAxisData;
+            this.seriesData = seriesData;
+            this.draw();
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          this.$message.error(error.message)
+        } finally {
+          this.loading = false;
+        }
+      }
+    },
   },
   mounted() {
     const myChart = echarts.init(this.$refs['chart']);
     this.myChart = myChart;
     window.addEventListener('resize', function() {
       myChart.resize();
-    })
+    });
+    this.search();
+    if (this.currentHouseId) {
+      const houseName = this.$store.getters.getHouseNameById(this.currentHouseId);
+      this.searchText = houseName;
+    }
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="loupan-container">
-    <a-menu mode="horizontal" :default-selected-keys="['search']">
+    <a-menu mode="horizontal" v-model="currentKey">
       <a-menu-item key="search">
         <router-link to="/">楼盘趋势</router-link>
       </a-menu-item>
@@ -21,6 +21,16 @@
 export default {
   data() {
     return {
+    }
+  },
+  computed: {
+    currentKey() {
+      switch(this.$route.path) {
+        case '/': return ['search'];
+        case '/link-list': return ['linkList'];
+        case '/change-rate': return ['sort'];
+        default: return ['search'];
+      }
     }
   },
   mounted() {

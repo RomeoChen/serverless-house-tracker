@@ -37,6 +37,7 @@
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
       <template slot="customRender" slot-scope="text, record, index, column">
+      <router-link :to="{name: 'chart', params: {houseId: record.id}}">
         <span v-if="searchText && searchedColumn === column.dataIndex">
           <template
             v-for="(fragment, i) in text
@@ -54,6 +55,7 @@
         <template v-else>
           {{ text }}
         </template>
+      </router-link>
       </template>
       <template v-slot:options="house">
         <a-button type="danger" @click="handleDelete(house)">删除</a-button>
@@ -105,6 +107,7 @@ const columns = [
   }, {
     key: 'options',
     title: '操作',
+    width: '30%',
     scopedSlots: {customRender: 'options'},
   }
 ]
@@ -198,6 +201,10 @@ export default {
     handleReset(clearFilters) {
       clearFilters();
       this.searchText = '';
+    },
+
+    clickLink(houseId) {
+      this.$store.commit('changeCurrentHouseId', houseId);
     },
   },
   mounted() {

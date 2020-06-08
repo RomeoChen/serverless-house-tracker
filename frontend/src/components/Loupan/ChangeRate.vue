@@ -8,6 +8,9 @@
     <a-button @click="onSearch">搜索</a-button>
   </div>
   <a-table :columns="columns" :data-source="data">
+    <template v-slot:name="{name}">
+      <a href="/" >{{name}}</a>
+    </template>
     <template v-slot:rate="{startCount, endCount}">
       <span>{{calcRate(startCount, endCount)}}%</span>
     </template>
@@ -34,6 +37,7 @@ const columns = [
     key: 'name',
     title: '楼盘名',
     width: '40%',
+    scopedSlots: {customRender: 'name'},
   }, {
     dataIndex: 'startCount',
     key: 'startCount',
@@ -80,7 +84,6 @@ export default {
       return current && current > moment().endOf('day');
     },
     findNameById(id) {
-      console.log('id', id)
       return this.$store.getters.getHouseNameById(id);
     },
     handleData(startData, endData) {
@@ -118,8 +121,6 @@ export default {
         const [startDate, endDate] = this.dateValue;
         const { data: startData } = await axios.get(`${window.env.apiUrl}count/date=${startDate}`);
         const { data: endData } = await axios.get(`${window.env.apiUrl}count/date=${endDate}`);
-        console.log('startData', startData)
-        console.log('endData', endData)
         this.data = this.handleData(startData.data, endData.data);
       } catch (error) {
         this.$message.error(error.message);

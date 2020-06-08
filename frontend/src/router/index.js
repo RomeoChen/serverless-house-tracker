@@ -11,6 +11,7 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'chart',
         component: () => import('../components/Loupan/TrendChart.vue')
       },
       {
