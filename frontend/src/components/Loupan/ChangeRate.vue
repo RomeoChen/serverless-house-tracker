@@ -8,9 +8,6 @@
     <a-button @click="onSearch">搜索</a-button>
   </div>
   <a-table :columns="columns" :data-source="data">
-    <template v-slot:name="{name}">
-      <a href="/" >{{name}}</a>
-    </template>
     <template v-slot:rate="{startCount, endCount}">
       <span>{{calcRate(startCount, endCount)}}%</span>
     </template>
