@@ -3,7 +3,7 @@
   <a-auto-complete 
     :value="searchText"
     style="width: 100%" 
-    :dataSource="nameList" 
+    :dataSource="filteredNameList" 
     placeholder="搜索楼盘"
     @select="onSearch"
     @change="onChange"
@@ -32,6 +32,9 @@ export default {
   computed: {
     nameList() {
       return this.$store.getters.nameList;
+    },
+    filteredNameList() {
+      return this.nameList.filter(v => v.includes(this.searchText));
     },
     houseId() {
       const house = this.$store.getters.getHouseByName(this.searchText);
