@@ -1,7 +1,7 @@
 'use strict';
 
 const pool = require('./pool');
-const { ApiError } = require('../tool')
+const { ApiError, checkValidUrl } = require('../tool');
 
 module.exports = {
 
@@ -42,6 +42,10 @@ module.exports = {
     const existUser = await this.getHouseByName(name);
     if (existUser) {
       throw ApiError(1002, `house ${name} exist.`);
+    }
+    const isValidUrl = await checkValidUrl(url);
+    if (!isValidUrl) {
+      throw ApiError(1005, `url 无效`);
     }
     const client = await pool.connect();
     const { rowCount } = await client.query({
