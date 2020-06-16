@@ -5,6 +5,36 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const URLListCB = require('./callbacks/urlList');
 const CountCB = require('./callbacks/count');
+const schedule = require('node-schedule');
+const { spiderValue } = require('./tool');
+const { getHouseList } = require('./controller/loupanUrl');
+const { createCount } = require('./controller/count');
+
+
+async function spiderUrlList() {
+  try {
+    const countList = [];
+    const houseList = await getHouseList();
+    for (const house of houseList) {
+      const { id, url } = house;
+      const number = await spiderValue(url);
+      const count = {
+        houseId: id,
+        num: number,
+        date: new Date().toDateString(),
+      }
+      await createCount(count);
+      countList.push(count);
+    }
+    return countList;
+  } catch (error) {
+    console.error(error);
+    return error.message;
+  }
+}
+
+/** 定时运行任务 */
+schedule.scheduleJob('0 0 8 * * *', spiderUrlList);
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +47,15 @@ app.get('/', (req, res) => {
       message: `Server time: ${new Date().toString()}`,
     }),
   );
+});
+
+app.get('/spider', async (req, res) => {
+  const data = await spiderUrlList();
+  res.send(JSON.stringify({
+    code: 0,
+    message: `spider time: ${new Date().toString()}`,
+    data,
+  }))
 });
 
 /** 获取楼盘列表信息 */

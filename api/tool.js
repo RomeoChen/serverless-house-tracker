@@ -33,4 +33,6 @@ module.exports = {
       return false;
     }
   },
+
+  spiderValue,
 }
