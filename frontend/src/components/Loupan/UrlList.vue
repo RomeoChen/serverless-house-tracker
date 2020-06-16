@@ -76,6 +76,7 @@
 
 <script>
 import axios from "axios";
+import { checkValidUrl } from '../../utils';
 
 const columns = [
   {
@@ -169,7 +170,11 @@ export default {
     },
     async handleAddOk() {
       if (!this.formCheck()) {
-        this.$message.error(`不能为空`)
+        this.$message.error(`不能为空`);
+        return;
+      }
+      if (!checkValidUrl(this.form.url)) {
+        this.$message.error(`url无效`);
         return;
       }
       this.confirmLoading = true;
@@ -201,10 +206,6 @@ export default {
     handleReset(clearFilters) {
       clearFilters();
       this.searchText = '';
-    },
-
-    clickLink(houseId) {
-      this.$store.commit('changeCurrentHouseId', houseId);
     },
   },
   mounted() {
