@@ -5,7 +5,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const URLListCB = require('./callbacks/urlList');
 const CountCB = require('./callbacks/count');
-const schedule = require('node-schedule');
 const { spiderValue } = require('./tool');
 const { getHouseList } = require('./controller/loupanUrl');
 const { createCount } = require('./controller/count');
@@ -32,9 +31,6 @@ async function spiderUrlList() {
     return error.message;
   }
 }
-
-/** 定时运行任务 */
-schedule.scheduleJob('0 0 8 * * *', spiderUrlList);
 
 const app = express();
 app.use(bodyParser.json());
