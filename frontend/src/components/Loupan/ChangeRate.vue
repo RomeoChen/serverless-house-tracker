@@ -7,7 +7,7 @@
     />
     <a-button @click="onSearch">搜索</a-button>
   </div>
-  <a-table :columns="columns" :data-source="data">
+  <a-table :columns="columns" :data-source="data" :loading="loading">
     <template v-slot:rate="{startCount, endCount}">
       <span>{{calcRate(startCount, endCount)}}%</span>
     </template>
@@ -70,6 +70,7 @@ export default {
       dateValue: [],
       startData: [],
       endData: [],
+      loading: false,
     }
   },
   methods: {
@@ -114,6 +115,7 @@ export default {
       return result;
     },
     async onSearch() {
+      this.loading = true;
       try {
         const [startDate, endDate] = this.dateValue;
         const { data: startData } = await axios.get(`${window.env.apiUrl}count/date=${startDate}`);
@@ -122,6 +124,7 @@ export default {
       } catch (error) {
         this.$message.error(error.message);
       }
+      this.loading = false;
     }
   }
 }
