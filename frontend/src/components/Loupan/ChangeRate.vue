@@ -8,6 +8,11 @@
     <a-button @click="onSearch">搜索</a-button>
   </div>
   <a-table :columns="columns" :data-source="data" :loading="loading">
+    <template v-slot:name="{id, name}">
+      <router-link :to="{name: 'chart', params: {houseId: id}}">
+        <span>{{name}}</span>
+      </router-link>
+    </template>
     <template v-slot:rate="{startCount, endCount}">
       <span>{{calcRate(startCount, endCount)}}%</span>
     </template>
@@ -30,7 +35,6 @@ function calcRate(startCount, endCount) {
 
 const columns = [
   {
-    dataIndex: 'name',
     key: 'name',
     title: '楼盘名',
     width: '40%',
