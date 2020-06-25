@@ -5,7 +5,6 @@
       @change="onChangeDate"
       :disabled-date="disabledDate"
     />
-    <a-button @click="onSearch">搜索</a-button>
   </div>
   <a-table :columns="columns" :data-source="data" :loading="loading">
     <template v-slot:name="{id, name}">
@@ -81,6 +80,7 @@ export default {
     calcRate,
     onChangeDate(date, dateString) {
       this.dateValue = dateString;
+      this.onSearch();
     },
     disabledDate(current) {
       return current && current > moment().endOf('day');
@@ -136,6 +136,6 @@ export default {
 
 <style scoped>
 .range-btn {
-  display: flex;
+  width: 100%;
 }
 </style>
