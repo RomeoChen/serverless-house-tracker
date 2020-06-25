@@ -1,14 +1,14 @@
 <template>
   <div class="loupan-container">
     <a-menu mode="horizontal" v-model="currentKey">
+      <a-menu-item key="sort">
+        <router-link to="/change-rate">楼盘变化率</router-link>
+      </a-menu-item>
       <a-menu-item key="search">
         <router-link to="/">楼盘趋势</router-link>
       </a-menu-item>
       <a-menu-item key="linkList">
         <router-link to="/link-list">楼盘链接</router-link>
-      </a-menu-item>
-      <a-menu-item key="sort">
-        <router-link to="/change-rate">楼盘变化率</router-link>
       </a-menu-item>
     </a-menu>
     <div class="loupan-content">
