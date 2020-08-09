@@ -11,9 +11,6 @@
           <a-menu-item key="loupan" @click="changeToLoupan">
             <router-link to="/">楼盘</router-link>
           </a-menu-item>
-          <a-menu-item key="bankuai" @click="changeToBankuai">
-            <router-link to="/bankuai">板块</router-link>
-          </a-menu-item>
         </a-menu>
       </a-dropdown>
     </header>
