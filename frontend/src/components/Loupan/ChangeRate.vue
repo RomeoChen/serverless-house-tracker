@@ -2,6 +2,7 @@
 <div>
   <div class="range-btn">
     <a-range-picker 
+      :defaultValue="[moment().day(-30), moment().day(-1)]"
       @change="onChangeDate"
       :disabled-date="disabledDate"
     />
@@ -59,7 +60,7 @@ const columns = [
       } else if (rateB === '-') {
         return 1;
       } else {
-        return rateA - rateB;
+        return rateB - rateA;
       }
     },
   }
@@ -68,6 +69,7 @@ const columns = [
 export default {
   data() {
     return {
+      moment,
       columns,
       data: [],
       dateValue: [],
@@ -75,6 +77,10 @@ export default {
       endData: [],
       loading: false,
     }
+  },
+  mounted () {
+    this.dateValue = [moment().day(-30).format('YYYY-MM-DD'), moment().day(-1).format('YYYY-MM-DD')]
+    this.onSearch()
   },
   methods: {
     calcRate,
